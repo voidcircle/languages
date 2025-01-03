@@ -9,7 +9,8 @@ fn main() {
     println!("The value of x is: {x}");
 
     const THREE_HOURS_IN_SECONDS: u16 = 60 * 60 * 3; // constants; never change, and can be shared
-                                                     // between any scopes
+                                                     // between any scopes;
+                                                     // the types should be specified.
     println!("The number of seconds in three hours is {THREE_HOURS_IN_SECONDS}");
 
     let a: u8 = 5; // shadowing (shadowed)
