@@ -6,8 +6,8 @@ fn main() {
 
     greet("Rust", "beginner", 16);
 
-    let y = {
-        let mut x = 3;
+    let y: u8 = {
+        let mut x: u8 = 3;
         x = x + 4;
         x + 1
     };
@@ -36,6 +36,7 @@ fn greet(field: &str, job: &str, age: u8) {
 
 fn get_five() -> u8 {
     5
+    // return 5; would be the same
 }
 
 fn plus_one(x: u8) -> u8 {
