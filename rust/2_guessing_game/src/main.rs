@@ -1,6 +1,5 @@
-use std::{cmp::Ordering, io};
-
 use rand::Rng;
+use std::{cmp::Ordering, io};
 
 fn main() {
     let secret_number: u8 = get_random_secret_number();
@@ -32,7 +31,7 @@ fn main() {
                 println!("The secret number was: {secret_number}");
                 break;
             }
-        }
+        };
 
         attempt += 1;
     }
