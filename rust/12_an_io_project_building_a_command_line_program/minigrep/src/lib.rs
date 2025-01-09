@@ -1,4 +1,8 @@
-use std::{env, error::Error, fs};
+use std::{
+    env::{self, Args},
+    error::Error,
+    fs,
+};
 
 #[derive(Debug)]
 pub struct Config {
@@ -8,17 +12,19 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn build(user_args: &[String]) -> Result<Config, &'static str> {
-        if user_args.len() != 3 {
-            return Err("The arguments are not valid.");
-        }
-
-        let ignore_case: bool = env::var("IGNORE_CASE").is_ok();
+    pub fn build(mut user_args: Args) -> Result<Config, &'static str> {
+        user_args.next();
 
         Ok(Config {
-            term: user_args[1].to_string(),
-            file: user_args[2].to_string(),
-            ignore_case,
+            term: match user_args.next() {
+                Some(user_term) => user_term,
+                _ => return Err("The arguments are not valid."),
+            },
+            file: match user_args.next() {
+                Some(user_file) => user_file,
+                _ => return Err("The arguments are not valid."),
+            },
+            ignore_case: env::var("IGNORE_CASE").is_ok(),
         })
     }
 }
@@ -46,27 +52,19 @@ pub fn run(configuration: Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub fn search<'a>(term: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results: Vec<&str> = Vec::new();
-
-    for current_line in contents.lines() {
-        if current_line.contains(term) {
-            results.push(current_line);
-        }
-    }
-
-    results
+    contents
+        .lines()
+        .filter(|current_line| current_line.contains(term))
+        .collect()
 }
 
 pub fn search_case_insensitive<'a>(term: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results: Vec<&str> = Vec::new();
+    let term: String = term.to_lowercase();
 
-    for current_line in contents.lines() {
-        if current_line.to_lowercase().contains(&term.to_lowercase()) {
-            results.push(current_line);
-        }
-    }
-
-    results
+    contents
+        .lines()
+        .filter(|current_line| current_line.to_lowercase().contains(&term))
+        .collect()
 }
 
 #[cfg(test)]
