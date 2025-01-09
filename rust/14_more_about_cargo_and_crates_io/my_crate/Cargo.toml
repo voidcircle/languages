@@ -1,0 +1,8 @@
+[package]
+name = "my_crate_qdufsdg"
+description = "this is a test crate"
+license = "MIT"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
