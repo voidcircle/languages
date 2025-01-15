@@ -2,7 +2,6 @@ use blog::{DraftPost, PendingReviewPost, Post, PublishedPost};
 
 fn main() {
     let mut post: DraftPost = Post::new();
-
     post.add_text("I ate a salad for lunch today.");
 
     // we cannot get content in any ways since...
@@ -11,7 +10,6 @@ fn main() {
     // post.content
 
     let reviewed_post: PendingReviewPost = post.request_review();
-
     let published_post: PublishedPost = reviewed_post.approve();
 
     // we cannot even accidently try to get the content of unpublished thing.
