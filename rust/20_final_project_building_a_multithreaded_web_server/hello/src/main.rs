@@ -7,11 +7,18 @@ use std::{
     time::Duration,
 };
 
+use hello::ThreadPool;
+
 fn main() {
     let listener: TcpListener = TcpListener::bind("127.0.0.1:7878").unwrap();
+    let pool: ThreadPool = ThreadPool::new(3);
 
     for stream in listener.incoming() {
-        handle_connection(stream.unwrap());
+        let stream = stream.unwrap();
+
+        pool.execute(|| {
+            handle_connection(stream);
+        });
     }
 }
 
